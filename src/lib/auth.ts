@@ -100,10 +100,15 @@ export async function signInWithOAuth(provider: Provider) {
 
   console.log('result',  result);
 
+  if (result.type === "success" && result.url) {
+    await createSessionFromUrl(result.url);
+    return;
+  }
+
   if (result.type === "cancel" || result.type === "dismiss") {
     return;
   }
-  console.log('getRedirectSetupMessage', getRedirectSetupMessage(redirectTo))
+
   throw new Error(getRedirectSetupMessage(redirectTo));
 }
 
